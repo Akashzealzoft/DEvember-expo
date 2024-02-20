@@ -1,9 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View,FlatList } from 'react-native';
+import { StyleSheet, Text, View,FlatList, ActivityIndicator } from 'react-native';
 import DayListItem from './src/components/coreComponnents/DayListItem';
+import { useFonts, Inter_900Black } from '@expo-google-fonts/inter';
+import { NanumPenScript_400Regular } from '@expo-google-fonts/nanum-pen-script';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect } from 'react';
+
+SplashScreen.preventAutoHideAsync();
+
 const days = [...Array(24)].map((val,index)=>index+1)
 
 export default function App() {
+    const [fontsLoaded, fontError]=useFonts({
+      Inter:Inter_900Black,
+      PenScript:NanumPenScript_400Regular
+    })
+
+    
+
+    useEffect(()=>{
+      if (fontsLoaded || fontError) {
+        SplashScreen.hideAsync()
+       }
+    },[fontsLoaded,fontError])
+
+
+
+    if (!fontsLoaded && !fontError) {
+        return null
+     }
+
   return (
     <View style={styles.container}>
        

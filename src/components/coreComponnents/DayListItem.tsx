@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     },
     text:{
       color:'#9B4521',
-      fontSize:70
+      fontSize:70,
+      fontFamily:'PenScript'
     },
    
   });
