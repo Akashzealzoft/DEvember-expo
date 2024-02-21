@@ -49,6 +49,15 @@ export default function onboarding() {
     <SafeAreaView style={style.page}>
         <Stack.Screen  options={{headerShown:false}}/>
         <View style={style.pageContent}>
+            <View style={style.stepIndicatorContainer}>
+                {onboardingSteps.map((e,i)=>(
+
+                <View style={[style.stepIndicator,{backgroundColor:i==screenIndex?"#CEF202":"grey"}]}/>
+                ))}
+
+
+                </View>
+            </View>
         <FontAwesome6 style={style.image} name={data.icon} size={100} color="#CEF202" />
 
       <View style={style.footer}>
@@ -62,7 +71,6 @@ export default function onboarding() {
                     <Text style={style.buttonText}>Continue</Text>
                 </Pressable>
         </View>
-      </View>
     </SafeAreaView>
   )
 }
@@ -95,6 +103,13 @@ const style = StyleSheet.create({
         fontFamily:"regular",
         lineHeight:25
     },
+    stepIndicator:{
+       flex:1,height:3,
+       backgroundColor:"gray",
+        margin:5,
+        borderRadius:10
+
+    },
     footer:{
         marginTop:"auto"
     },
@@ -118,5 +133,8 @@ const style = StyleSheet.create({
         fontFamily:"regular",
         
         paddingHorizontal:25
+    },
+    stepIndicatorContainer:{
+            flexDirection:'row'
     }
 })
