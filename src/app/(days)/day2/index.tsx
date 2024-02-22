@@ -8,7 +8,7 @@ export default function index() {
         <Stack.Screen options={{title:"Day 2:Onboaridng"}}/>
       <Text>Onboarding Detals screen</Text>
         <Link href={"/day2/onboarding"} asChild>
-      <Button title='Go to onBorading'/>
+          <Button title='Go to onBorading'/>
       </Link>
     </View>
   )

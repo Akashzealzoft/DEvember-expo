@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useFonts, Inter_900Black,Inter_400Regular } from '@expo-google-fonts/inter';
 import { NanumPenScript_400Regular } from '@expo-google-fonts/nanum-pen-script';
 import * as SplashScreen from 'expo-splash-screen';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 
 export default function RootLayout(){
@@ -25,5 +26,8 @@ export default function RootLayout(){
       if (!fontsLoaded && !fontError) {
           return null
        }
-    return <Stack/>
+    return (
+    <GestureHandlerRootView style={{flex:1}}>
+      <Stack/>
+    </GestureHandlerRootView>)
 }

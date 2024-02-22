@@ -2,6 +2,12 @@ import { View, Text,StyleSheet ,SafeAreaView,Pressable} from 'react-native'
 import React, { useState } from 'react'
 import { Link, Stack,router } from 'expo-router'
 import { FontAwesome6 } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+import { Gesture } from 'react-native-gesture-handler';
+import { Directions } from 'react-native-gesture-handler';
+import { GestureDetector } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
+import { FadeIn,FadeOut,BounceInRight,BounceInLeft,BounceOutLeft } from 'react-native-reanimated';
 
 
 
@@ -28,35 +34,87 @@ export default function onboarding() {
     const [screenIndex,setscreenIndex] = useState(0)
 
     const data = onboardingSteps[screenIndex]
-
+  
     const onContinue = ()=>{
+        console.log("on COntinue")
         const isLastScreen = screenIndex === onboardingSteps.length-1
         if(isLastScreen){
-            onboarding()
+            onBoarding()
         }else{
         setscreenIndex(screenIndex+1)
 
         }
     }
 
-    const onboarding = ()=>{
+    function onHit(){
+        setscreenIndex(screenIndex+1)
+    }
+
+
+    const onBack = ()=>{
+        const isFirstScreen = screenIndex == 0
+        if(isFirstScreen){
+            onBoarding()
+
+        }else{
+            setscreenIndex(screenIndex-1)
+        }
+    }
+
+    const onBoarding = ()=>{
+        console.log("Hellow worldd")
         setscreenIndex(0)
         router.back()
     }
 
+    const swipeForward = Gesture.Fling()
+    .runOnJS(true)
+    .direction(Directions.LEFT)
+    .onEnd((event)=>{
+        try {
+            onContinue()
+    
+            }   
+         catch (error) {
+            console.error("error is swiper",error)
+        }
+
+ 
+     })
+ 
+     const swipeBackward = Gesture.Fling()
+     .runOnJS(true)
+     .direction(Directions.RIGHT)
+     .onEnd((event)=>{
+        try {
+             onBack()
+        } catch (error) {
+            console.error("error is swiper",error)
+        }
+       
+        
+ 
+     })
+
+    const swipes = Gesture.Simultaneous(swipeForward,swipeBackward)
 
   return (
     <SafeAreaView style={style.page}>
         <Stack.Screen  options={{headerShown:false}}/>
-        <View style={style.pageContent}>
+        <StatusBar style='light'/>
+        <GestureDetector gesture={swipes}>
+        <Animated.View
+        entering={BounceInRight}
+        exiting={BounceOutLeft}
+        key={screenIndex}
+        style={style.pageContent}>
             <View style={style.stepIndicatorContainer}>
                 {onboardingSteps.map((e,i)=>(
 
-                <View style={[style.stepIndicator,{backgroundColor:i==screenIndex?"#CEF202":"grey"}]}/>
+                <View key={i} style={[style.stepIndicator,{backgroundColor:i==screenIndex?"#CEF202":"grey"}]}/>
                 ))}
 
 
-                </View>
             </View>
         <FontAwesome6 style={style.image} name={data.icon} size={100} color="#CEF202" />
 
@@ -65,12 +123,14 @@ export default function onboarding() {
       <Text style={style.description}>{data.description}</Text>
       </View>
         <View style={style.buttonsrow}>
-        <Text style={style.buttonText} onPress={onboarding}>Skip</Text>
+        <Text style={style.buttonText} onPress={onBoarding}>Skip</Text>
        
                 <Pressable style={style.button} onPress={onContinue}>
                     <Text style={style.buttonText}>Continue</Text>
                 </Pressable>
         </View>
+        </Animated.View>
+        </GestureDetector>
     </SafeAreaView>
   )
 }
@@ -135,6 +195,7 @@ const style = StyleSheet.create({
         paddingHorizontal:25
     },
     stepIndicatorContainer:{
-            flexDirection:'row'
+            flexDirection:'row',
+            gap:5
     }
 })
