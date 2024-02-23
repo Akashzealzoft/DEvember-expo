@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Gesture } from 'react-native-gesture-handler';
 import { Directions } from 'react-native-gesture-handler';
 import { GestureDetector } from 'react-native-gesture-handler';
-import Animated from 'react-native-reanimated';
+import Animated, { SlideInLeft } from 'react-native-reanimated';
 import { FadeIn,FadeOut,BounceInRight,BounceInLeft,BounceOutLeft } from 'react-native-reanimated';
 
 
@@ -18,13 +18,13 @@ const onboardingSteps = [{
 
 },
 {
-    icon:"people-arrows",
+    icon:"icons",
     title:"onboarding-screeen2",
     description:"Learn and grow with expo",
 
 },
 {
-    icon:"people-arrows",
+    icon:"accessible-icon",
     title:"onboarding-screen3",
     description:"May code be with you uuntur iure id exercitationem. Molestias, optio",
 }
@@ -36,7 +36,6 @@ export default function onboarding() {
     const data = onboardingSteps[screenIndex]
   
     const onContinue = ()=>{
-        console.log("on COntinue")
         const isLastScreen = screenIndex === onboardingSteps.length-1
         if(isLastScreen){
             onBoarding()
@@ -62,7 +61,6 @@ export default function onboarding() {
     }
 
     const onBoarding = ()=>{
-        console.log("Hellow worldd")
         setscreenIndex(0)
         router.back()
     }
@@ -103,9 +101,7 @@ export default function onboarding() {
         <Stack.Screen  options={{headerShown:false}}/>
         <StatusBar style='light'/>
         <GestureDetector gesture={swipes}>
-        <Animated.View
-        entering={BounceInRight}
-        exiting={BounceOutLeft}
+        <View
         key={screenIndex}
         style={style.pageContent}>
             <View style={style.stepIndicatorContainer}>
@@ -116,11 +112,12 @@ export default function onboarding() {
 
 
             </View>
-        <FontAwesome6 style={style.image} name={data.icon} size={100} color="#CEF202" />
-
+        <Animated.View entering={FadeIn} exiting={FadeOut}>
+                 <FontAwesome6 style={style.image} name={data.icon} size={100} color="#CEF202" />
+        </Animated.View>
       <View style={style.footer}>
-      <Text style={style.title}>{data.title}</Text>
-      <Text style={style.description}>{data.description}</Text>
+      <Animated.Text entering={SlideInLeft}style={style.title}>{data.title}</Animated.Text>
+      <Animated.Text  entering={SlideInLeft.delay(200)} style={style.description}>{data.description}</Animated.Text>
       </View>
         <View style={style.buttonsrow}>
         <Text style={style.buttonText} onPress={onBoarding}>Skip</Text>
@@ -129,7 +126,7 @@ export default function onboarding() {
                     <Text style={style.buttonText}>Continue</Text>
                 </Pressable>
         </View>
-        </Animated.View>
+        </View>
         </GestureDetector>
     </SafeAreaView>
   )
