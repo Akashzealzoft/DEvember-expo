@@ -6,7 +6,7 @@ import { NanumPenScript_400Regular } from '@expo-google-fonts/nanum-pen-script';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 
-SplashScreen.preventAutoHideAsync();
+//SplashScreen.preventAutoHideAsync();
 
 const days = [...Array(24)].map((val,index)=>index+1)
 
@@ -18,17 +18,17 @@ export default function HomeScreen() {
 
     
 
-    useEffect(()=>{
-      if (fontsLoaded || fontError) {
-        SplashScreen.hideAsync()
-       }
-    },[fontsLoaded,fontError])
+    // useEffect(()=>{
+    //   if (fontsLoaded || fontError) {
+    //     SplashScreen.hideAsync()
+    //    }
+    // },[fontsLoaded,fontError])
 
 
 
-    if (!fontsLoaded && !fontError) {
-        return null
-     }
+    // if (!fontsLoaded && !fontError) {
+    //     return null
+    //  }
 
   return (
     <View style={styles.container}>
